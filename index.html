@@ -1925,7 +1925,12 @@
   const isStone = (tile) => Boolean(tile && tile.stone !== undefined);
 
   function setActiveTileTypes(types) {
-    const valid = (types || []).filter((type) => Number.isInteger(type) && type >= 0 && type < TILE_TYPES.length);
+    // Type 7 used the same blue-monster artwork as type 0.  They looked like
+    // one creature to the player but were different match identities, so a
+    // visibly complete blue run could fail to register.  Canonicalize it to
+    // type 0 everywhere a level selects its available creatures.
+    const normalized = (types || []).map((type) => type === 7 ? 0 : type);
+    const valid = normalized.filter((type) => Number.isInteger(type) && type >= 0 && type < TILE_TYPES.length);
     activeTileTypes = valid.length ? [...new Set(valid)] : TILE_TYPES.map((_, index) => index);
   }
 
