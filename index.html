@@ -1362,6 +1362,78 @@
     }
     .hud-meter .hud-top-icon{transform:none!important;}
   }
+  /* Levels menu preview: a quiet plum surface, with the purple energy reserved for hover. */
+  #start-screen .level-grid{
+    border:0!important;background:transparent!important;box-shadow:none!important;
+    padding:clamp(14px,3vw,24px);gap:12px;
+  }
+  #start-screen .level-card{
+    min-height:104px;display:grid;place-items:center;padding:12px;
+    border:0!important;border-radius:22px;
+    background:linear-gradient(160deg,rgba(44,29,96,.88),rgba(20,8,53,.96))!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 -4px 8px rgba(3,0,28,.3),0 5px 12px rgba(0,0,0,.34)!important;
+    filter:none!important;transition:transform .16s ease,box-shadow .16s ease;
+  }
+  #start-screen .level-card:hover:not(.locked){
+    transform:translateY(-3px)!important;
+    box-shadow:0 0 16px rgba(195,75,255,.56),0 0 34px rgba(195,75,255,.30)!important;
+  }
+  #start-screen .level-card.completed{
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 -4px 8px rgba(3,0,28,.3),0 5px 12px rgba(0,0,0,.34)!important;
+  }
+  #start-screen .level-num{
+    min-height:0!important;color:#fff!important;
+    font-size:clamp(34px,6vw,48px)!important;
+    text-shadow:0 2px 0 #16062f,0 0 8px rgba(193,75,255,.18)!important;
+  }
+  #start-screen .level-lock{min-height:0!important;margin:0!important;}
+  @media (max-width:620px){#start-screen .level-card{min-height:92px;border-radius:18px;}}
+  /* Home choices share the Levels menu's restrained card language. */
+  #start-screen .game-mode-choice{gap:12px;}
+  #start-screen .mode-card,
+  #start-screen .mode-free-play{
+    min-height:148px;border:0!important;border-radius:22px;
+    background:linear-gradient(160deg,rgba(44,29,96,.88),rgba(20,8,53,.96))!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 -4px 8px rgba(3,0,28,.3),0 5px 12px rgba(0,0,0,.34)!important;
+    filter:none!important;transition:transform .16s ease,box-shadow .16s ease;
+  }
+  #start-screen .mode-card:hover,
+  #start-screen .mode-free-play:hover{
+    transform:translateY(-3px)!important;filter:none!important;
+    box-shadow:0 0 16px rgba(195,75,255,.56),0 0 34px rgba(195,75,255,.30)!important;
+  }
+  #start-screen .mode-card small{color:#e7dcfb;}
+  #start-screen .free-play-clock-icon{
+    display:block;width:38px;height:42px;background:#ff9cf2;
+    -webkit-mask:url('free-play-clock.png') center/contain no-repeat;
+    mask:url('free-play-clock.png') center/contain no-repeat;
+    filter:drop-shadow(0 0 5px #ff71e8) drop-shadow(0 2px 0 #37122f);
+  }
+  @media (max-width:420px){#start-screen .mode-card,#start-screen .mode-free-play{border-radius:18px;}}
+  /* Free Play gets a dedicated pink clock in the reused timer meter. */
+  #game-screen.free-play .compass-icon{
+    background:none!important;border:0!important;box-shadow:none!important;
+    text-shadow:none!important;
+  }
+  #game-screen.free-play .compass-icon .hud-icon-tile{display:none!important;}
+  #game-screen.free-play .compass-icon::before{
+    content:''!important;position:static!important;display:block;width:29px;height:33px;
+    background:#ff9cf2!important;border:0!important;box-shadow:none!important;
+    -webkit-mask:url('free-play-clock.png') center/contain no-repeat;
+    mask:url('free-play-clock.png') center/contain no-repeat;
+    filter:drop-shadow(0 0 4px #ff71e8) drop-shadow(0 2px 0 #37122f);
+  }
+  #game-screen.free-play .mana-meter .meter-core{grid-template-rows:16px auto;}
+  #game-screen.free-play .mana-meter .meter-numbers{
+    grid-row:2;z-index:6;align-self:center;justify-content:center;pointer-events:none;
+    color:#fff0fb!important;text-shadow:0 1px 2px #56003f,0 0 6px rgba(255,89,220,.95)!important;
+  }
+  /* Keep the empty timer track dark; its highlight lives inside the growing fill. */
+  #game-screen.free-play .mana-vial::before{display:none;}
+  #game-screen.free-play .mana-liquid::before{
+    content:'';position:absolute;left:3px;right:3px;top:2px;height:3px;border-radius:3px;
+    background:rgba(255,232,250,.42);pointer-events:none;
+  }
 </style>
 </head>
 <body>
@@ -1379,7 +1451,7 @@
 
     <div class="game-mode-choice" id="game-mode-choice" aria-label="Choose game mode">
       <button class="mode-card mode-levels" id="levels-mode-btn"><span class="mode-card-icon">☠</span><span>Levels</span><small>Play the haunted campaign</small></button>
-      <button class="mode-card mode-free-play" id="free-play-btn"><span class="mode-card-icon">⌛</span><span>Free Play</span><small>1:30 · High score</small></button>
+      <button class="mode-card mode-free-play" id="free-play-btn"><span class="mode-card-icon free-play-clock-icon" aria-hidden="true"></span><span>Free Play</span><small>1:30 · High score</small></button>
     </div>
     <div class="level-select-wrap hidden" id="level-select-wrap">
       <button class="level-menu-back" id="levels-back-btn">‹ Back to modes</button>
@@ -1868,6 +1940,9 @@
   // The structures grow from a centered pair to matching side clusters as the
   // campaign gets harder.
   function placeLevelPumpkins(level) {
+    // Pumpkins enter the campaign only after the player has learned the
+    // regular stone mechanic.
+    if (level.n < 11) { level.pumpkinPreview = []; return; }
     const stones = new Set((level.stones || []).map(([row, col]) => row + ':' + col));
     const usable = (cells) => cells.every(([row, col]) => level.shape[row]?.[col] === '1' && !stones.has(row + ':' + col));
     const choose = (makeCells) => {
@@ -3723,17 +3798,26 @@
     }
   }
 
+  function formatClock(seconds) {
+    const wholeSeconds = Math.max(0, Math.ceil(seconds));
+    return Math.floor(wholeSeconds / 60) + ':' + String(wholeSeconds % 60).padStart(2, '0');
+  }
+
   function updateHUD() {
     brewScoreEl.textContent = core.score.toLocaleString();
     if (core.freePlay) {
+      const elapsedSeconds = FREE_PLAY_SECONDS - (freePlayRemainingMs / 1000);
       potionPctEl.textContent = freePlayBest.toLocaleString();
-      movesUsedEl.textContent = String(Math.max(0, freePlaySecondsLeft));
-      movesValEl.textContent = String(FREE_PLAY_SECONDS);
+      movesUsedEl.textContent = formatClock(Math.floor(elapsedSeconds));
+      movesValEl.textContent = '';
       potionLiquidEl.style.width = Math.min(100, (core.score / Math.max(5000, freePlayBest || 0)) * 100) + '%';
-      movesLiquidEl.style.width = ((freePlayRemainingMs / (FREE_PLAY_SECONDS * 1000)) * 100) + '%';
-      movesLiquidEl.closest('.mana-meter').classList.toggle('low', freePlaySecondsLeft <= 5);
+      movesLiquidEl.style.width = ((elapsedSeconds / FREE_PLAY_SECONDS) * 100) + '%';
+      const timerMeter = movesLiquidEl.closest('.mana-meter');
+      timerMeter.setAttribute('aria-label', 'Time remaining');
+      timerMeter.classList.toggle('low', freePlaySecondsLeft <= 5);
       return;
     }
+    movesLiquidEl.closest('.mana-meter').setAttribute('aria-label', 'Moves used');
     const movesLeft = Math.max(0, core.movesLeft);
     const movesUsed = Math.max(0, levelMovesTotal - movesLeft);
     movesUsedEl.textContent = movesUsed.toLocaleString();
@@ -4118,8 +4202,7 @@
       if (unlocked) {
         card.innerHTML =
           (completed ? '<span class="level-check">\u2713</span>' : '') +
-          '<div class="level-num">' + lvl.n + '</div>' +
-          '<div class="level-name">' + lvl.name + '</div>';
+          '<div class="level-num">' + lvl.n + '</div>';
         card.addEventListener('click', () => {
           ensureAudio();
           startLevel(lvl.n);
@@ -4184,5 +4267,16 @@
   }
 })();
 </script>
+
+<!-- Online leaderboard add-on (shared with Potion Machine). Self-contained: it
+     never changes the game itself — see leaderboard/monster-hook.js. If these
+     fail to load, the game plays exactly as before. -->
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaderboard/lb-kit.css">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="leaderboard/lb-kit.js"></script>
+<script src="leaderboard/monster-hook.js"></script>
 </body>
 </html>
