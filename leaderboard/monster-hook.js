@@ -62,7 +62,9 @@
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'btn btn-ghost lb-board-btn';
-      btn.textContent = '🏆 Leaderboard';
+      btn.textContent = '🏆';
+      btn.setAttribute('aria-label', 'Open leaderboard');
+      btn.title = 'Leaderboard';
       btn.addEventListener('click', () => LB.showBoard());
       actions.appendChild(btn);
     }
@@ -75,7 +77,7 @@
     try {
       const me = await LB.getPlayer();
       if (!me.name) {
-        decorate(card, '🏆 Pick a name to get on the leaderboard');
+        decorate(card, '🏆 <button type="button" class="lb-change">Pick a name</button> to get on the leaderboard');
         await new Promise((r) => setTimeout(r, 1000));
         const name = await openPicker('Get on the leaderboard!');
         if (!name) {

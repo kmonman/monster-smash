@@ -6,7 +6,7 @@
 <title>Monster Smash | My Trick or Treat</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Quicksand:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Quicksand:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
   @font-face{
     font-family:'Berlin Sans FB Demi';
@@ -353,6 +353,16 @@
     position:fixed; inset:0; background: rgba(8,5,14,.78); backdrop-filter: blur(3px);
     display:flex; align-items:center; justify-content:center; z-index:20; padding:20px;
   }
+  #free-play-countdown{
+    position:fixed;inset:0;z-index:19;display:grid;place-items:center;pointer-events:all;
+    background:rgba(8,5,38,.34);backdrop-filter:blur(2px);
+  }
+  #free-play-countdown span{
+    color:#d8f8ff;font:900 clamp(26px,8vw,52px)/1 'Quicksand',sans-serif;letter-spacing:.04em;
+    text-shadow:0 0 8px #91edff,0 0 20px #3bbce3,0 4px 0 #0a3856;
+    animation:freePlayCountdownPop .68s cubic-bezier(.18,.9,.25,1) both;
+  }
+  @keyframes freePlayCountdownPop{0%{opacity:0;transform:scale(.54)}30%{opacity:1;transform:scale(1.13)}100%{opacity:1;transform:scale(1)}}
   .modal-card{
     background: linear-gradient(160deg, #241535, #170c26); border: 2px solid var(--panel-edge);
     border-radius: 18px; padding: 34px 30px; max-width: 380px; width:100%; text-align:center;
@@ -1056,7 +1066,8 @@
   @media (max-width:520px){.game-controls-bottom{grid-template-columns:repeat(4,45px);gap:10px;margin:13px auto 17px;}.bottom-glass-control{width:45px!important;height:45px!important;min-height:45px!important;border-radius:50%!important;}.bottom-glass-control .menu-icon{transform:none;}.bottom-glass-control .sound-icon{transform:scale(.9);}.bottom-glass-control.game-info-btn{font-size:24px;}}
   #start-screen .level-num{font-size:43px;line-height:1;min-height:43px;display:flex;align-items:center;justify-content:center;}
   #start-screen .level-name,#start-screen .level-lock{min-height:29px;display:flex;align-items:center;justify-content:center;margin-top:5px;}
-  .menu-info-wrap{margin-top:25px;display:flex;justify-content:center;}
+  .menu-info-wrap{margin-top:25px;display:flex;justify-content:center;gap:12px;}
+  .menu-blank-circle{pointer-events:none;}
   .menu-info-btn{
     width:44px;height:44px;border:2px solid #29dcff;border-radius:50%;cursor:pointer;
     background:linear-gradient(180deg,#293b8d,#0b1241);color:#d8faff;
@@ -1272,12 +1283,17 @@
   .game-mode-choice{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:520px;margin:28px auto 0;}
   .mode-card{min-height:148px;border:2px solid #29dcff;border-radius:20px;cursor:pointer;color:#fff;font:800 21px 'Quicksand',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:linear-gradient(145deg,#1d327b,#0b113d 64%,#070521);box-shadow:inset 0 2px 2px rgba(255,255,255,.23),inset 0 -7px 14px rgba(0,0,22,.56),0 6px 0 #050522,0 0 16px rgba(41,220,255,.28);transition:transform .16s ease,filter .16s ease;}
   .mode-card:hover{transform:translateY(-3px);filter:brightness(1.13);}
-  .mode-card-icon{font-size:40px;line-height:1;filter:drop-shadow(0 0 8px currentColor);}
+  .mode-card-icon{font-size:40px;line-height:1;filter:none;}
+  .mode-levels .mode-card-icon{display:block;width:64px;height:64px;background:url('Levels Green.png') center/contain no-repeat;filter:none;}
   .mode-card small{font-size:11px;font-weight:800;letter-spacing:.04em;color:#c5eaff;}
   .mode-free-play{border-color:#ff88db;background:linear-gradient(145deg,#63316f,#291541 64%,#110720);box-shadow:inset 0 2px 2px rgba(255,255,255,.2),inset 0 -7px 14px rgba(20,0,27,.56),0 6px 0 #12041d,0 0 16px rgba(255,53,204,.27);}
   .mode-free-play .mode-card-icon{color:#ffb5ec;}
   .level-select-wrap{margin-top:18px;}
-  .level-menu-back{margin:0 0 12px;background:transparent;border:0;color:#b8f3ff;font:800 13px 'Quicksand',sans-serif;cursor:pointer;text-shadow:0 0 8px rgba(0,217,255,.55);}
+  .level-menu-back{display:none!important;place-items:center;width:50px;height:50px;margin:0;padding:0;border:1px solid #5d95ce;border-radius:50%;background:linear-gradient(145deg,#263d7d,#0b123d);color:transparent;font-size:0;cursor:pointer;box-shadow:inset 0 1px 1px rgba(255,255,255,.22),inset 0 -5px 8px rgba(0,0,22,.6),0 3px 0 #050522,0 0 10px rgba(82,191,255,.25);transition:transform .16s ease,filter .16s ease;}
+  .level-menu-back::before{content:'';display:block!important;box-sizing:border-box;width:18px;height:18px;border-left:4px solid #c9eef8;border-bottom:4px solid #c9eef8;transform:rotate(45deg);filter:drop-shadow(0 0 4px rgba(86,190,225,.68));}
+  .level-menu-back:hover{transform:translateY(-2px);filter:brightness(1.15);}
+  #start-screen:has(#level-select-wrap:not(.hidden)) .level-menu-back{display:grid!important;}
+  @media (max-width:520px){.level-menu-back{width:45px;height:45px;font-size:30px;}}
   @media (max-width:420px){.game-mode-choice{gap:10px;margin-top:21px}.mode-card{min-height:126px;border-radius:17px;font-size:18px}.mode-card-icon{font-size:34px}}
   /* Keep the bottom controls glassy, but let the board and HUD carry the neon. */
   .bottom-glass-control{
@@ -1404,10 +1420,8 @@
   }
   #start-screen .mode-card small{color:#e7dcfb;}
   #start-screen .free-play-clock-icon{
-    display:block;width:38px;height:42px;background:#ff9cf2;
-    -webkit-mask:url('free-play-clock.png') center/contain no-repeat;
-    mask:url('free-play-clock.png') center/contain no-repeat;
-    filter:drop-shadow(0 0 5px #ff71e8) drop-shadow(0 2px 0 #37122f);
+    display:block;width:61px;height:67px;background:url('clock 2.png') center/contain no-repeat;
+    filter:none;
   }
   @media (max-width:420px){#start-screen .mode-card,#start-screen .mode-free-play{border-radius:18px;}}
   /* Free Play gets a dedicated pink clock in the reused timer meter. */
@@ -1418,21 +1432,48 @@
   #game-screen.free-play .compass-icon .hud-icon-tile{display:none!important;}
   #game-screen.free-play .compass-icon::before{
     content:''!important;position:static!important;display:block;width:29px;height:33px;
-    background:#ff9cf2!important;border:0!important;box-shadow:none!important;
-    -webkit-mask:url('free-play-clock.png') center/contain no-repeat;
-    mask:url('free-play-clock.png') center/contain no-repeat;
-    filter:drop-shadow(0 0 4px #ff71e8) drop-shadow(0 2px 0 #37122f);
-  }
+    background:url('clock 2.png') center/contain no-repeat!important;border:0!important;box-shadow:none!important;
+  /* The stopwatch artwork has more internal breathing room than the skull, so
+     scale the visible mark up to the same on-screen footprint. */
+  /* The supplied artwork's canvas is unusually padded.  This compensates for
+     that padding so the painted stopwatch is the same width as the skull. */
+  transform:scale(1.45)!important;transform-origin:center!important;
+  filter:drop-shadow(0 0 4px #ff71e8) drop-shadow(0 2px 0 #37122f);
+}
   #game-screen.free-play .mana-meter .meter-core{grid-template-rows:16px auto;}
   #game-screen.free-play .mana-meter .meter-numbers{
-    grid-row:2;z-index:6;align-self:center;justify-content:center;pointer-events:none;
+    grid-row:2;position:relative;z-index:6;align-self:center;display:block;pointer-events:none;
     color:#fff0fb!important;text-shadow:0 1px 2px #56003f,0 0 6px rgba(255,89,220,.95)!important;
   }
+  #game-screen.free-play .mana-meter #moves-used{position:absolute;top:0;left:0;white-space:nowrap;}
   /* Keep the empty timer track dark; its highlight lives inside the growing fill. */
   #game-screen.free-play .mana-vial::before{display:none;}
   #game-screen.free-play .mana-liquid::before{
     content:'';position:absolute;left:3px;right:3px;top:2px;height:3px;border-radius:3px;
     background:rgba(255,232,250,.42);pointer-events:none;
+  }
+  /* Bottom controls keep their dark-blue material, without glass reflections. */
+  .bottom-glass-control{
+    background:linear-gradient(180deg,#233d70,#0a153f)!important;
+    box-shadow:inset 0 -6px 9px rgba(1,3,25,.76),0 4px 0 rgba(3,4,28,.86),0 7px 13px rgba(0,0,0,.38)!important;
+  }
+  .bottom-glass-control::before,.bottom-glass-control::after{display:none!important;}
+  /* Levels back control: centered SVG geometry keeps the visible chevron balanced. */
+  .level-menu-back.bottom-glass-control.game-info-btn{font-size:0!important;}
+  .level-menu-back.bottom-glass-control.game-info-btn::before{
+    content:'';display:block!important;position:absolute!important;z-index:2!important;left:50%;top:50%;
+    width:22px;height:22px;border:0!important;border-radius:0!important;box-shadow:none!important;
+    background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M21 7 11 16 21 25' fill='none' stroke='%23c9eef8' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;
+    transform:translate(-50%,-50%)!important;filter:drop-shadow(0 0 4px rgba(86,190,225,.72))!important;
+  }
+  /* The in-game Menu action returns to the level menu, so it uses the same back affordance. */
+  .game-controls-bottom .menu-control{width:50px!important;min-width:50px!important;padding:0!important;}
+  .game-controls-bottom .menu-control .menu-icon,.game-controls-bottom .menu-control .control-label{display:none!important;}
+  .game-controls-bottom .menu-control::before{
+    content:'';display:block!important;position:absolute!important;z-index:2!important;left:50%;top:50%;
+    width:22px;height:22px;border:0!important;border-radius:0!important;box-shadow:none!important;
+    background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M21 7 11 16 21 25' fill='none' stroke='%23c9eef8' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;
+    transform:translate(-50%,-50%)!important;filter:drop-shadow(0 0 4px rgba(86,190,225,.72))!important;
   }
 </style>
 </head>
@@ -1448,17 +1489,16 @@
     <p class="brand-kicker">My Trick or Treat presents</p>
     <h1 class="title">Monster <span>Smash</span></h1>
     <p class="subtitle">Smash the monsters, brew powerful charms, and fill the cauldron before your moves run out.</p>
+    <div class="menu-info-wrap"><button class="level-menu-back bottom-glass-control game-info-btn" id="levels-back-btn" aria-label="Back to modes" title="Back to modes">‹</button><button class="menu-info-btn bottom-glass-control game-info-btn" id="menu-info-btn" aria-label="How to play">i</button></div>
 
     <div class="game-mode-choice" id="game-mode-choice" aria-label="Choose game mode">
-      <button class="mode-card mode-levels" id="levels-mode-btn"><span class="mode-card-icon">☠</span><span>Levels</span><small>Play the haunted campaign</small></button>
-      <button class="mode-card mode-free-play" id="free-play-btn"><span class="mode-card-icon free-play-clock-icon" aria-hidden="true"></span><span>Free Play</span><small>1:30 · High score</small></button>
+      <button class="mode-card mode-levels" id="levels-mode-btn"><span class="mode-card-icon" aria-hidden="true"></span><span>Levels</span></button>
+      <button class="mode-card mode-free-play" id="free-play-btn"><span class="mode-card-icon free-play-clock-icon" aria-hidden="true"></span><span>Free Play</span></button>
     </div>
     <div class="level-select-wrap hidden" id="level-select-wrap">
-      <button class="level-menu-back" id="levels-back-btn">‹ Back to modes</button>
       <div class="level-grid" id="level-select"></div>
     </div>
 
-    <div class="menu-info-wrap"><button class="menu-info-btn" id="menu-info-btn" aria-label="How to play">i</button></div>
   </div>
 
   <div id="game-screen" class="hidden">
@@ -1493,6 +1533,8 @@
   </div>
 
 </div>
+
+<div id="free-play-countdown" class="hidden" aria-live="assertive" aria-atomic="true"><span></span></div>
 
 <div id="modal-overlay" class="hidden">
   <div class="modal-card" id="modal-card"></div>
@@ -1729,36 +1771,36 @@
         "0000110000",
         "0000110000"
       ] },
-    { n: 11, name: "Witch's Hourglass", cols: 10, rows: 20, moves: 80, target: 8200, tiles: [0, 1, 2, 3, 5, 6], stones: [[9,3,0],[9,4,1],[9,5,0],[9,6,1],[10,3,1],[10,4,0],[10,5,1],[10,6,0]], pumpkinPreview: [[8,4],[8,5]],
+    { n: 11, name: "Witch's Hourglass", cols: 10, rows: 20, moves: 80, target: 8200, tiles: [0, 1, 2, 3, 5, 6], stones: [[9,3,0],[9,4,1],[9,5,0],[9,6,1],[10,3,1],[10,4,0],[10,5,1],[10,6,0]], pumpkinPreview: [[9,2],[9,7],[10,2],[10,7]],
       theme: { primary: '#c66cff', deep: '#64259d', glow: '#efc8ff', fogA: '#aa55ff', fogB: '#19062b' }, decor: ['⌛', '🔮', '🕯️'],
       shape: ["1111111111","0111111110","0011111100","0001111000","0000110000","0000110000","0001111000","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000","0000110000","0001111000","0011111100","0111111110","1111111111"] },
-    { n: 12, name: "Crypt Spiderweb", cols: 10, rows: 20, moves: 84, target: 9000, tiles: [0, 1, 2, 3, 4, 7],
+    { n: 12, name: "Crypt Spiderweb", cols: 10, rows: 20, moves: 84, target: 9000, tiles: [0, 1, 2, 3, 4, 7], pumpkinPreview: [],
       theme: { primary: '#72d8ff', deep: '#2573a6', glow: '#d8f7ff', fogA: '#52aee9', fogB: '#061a31' }, decor: ['🕸️', '🕷️', '🌙'],
       shape: ["0001111000","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0011111100","0111111110","1111111111","0111111110","0011111100"] },
-    { n: 13, name: "Moonlit Labyrinth", cols: 10, rows: 21, moves: 88, target: 9800, tiles: [0, 1, 2, 3, 5, 6],
+    { n: 13, name: "Moonlit Labyrinth", cols: 10, rows: 21, moves: 88, target: 9800, tiles: [0, 1, 2, 3, 5, 6], stones: [], pumpkinPreview: [[0,0],[0,1],[0,8],[0,9],[1,0],[1,1],[3,8],[3,9],[4,8],[4,9],[5,0],[5,1],[5,8],[5,9],[6,0],[6,1],[8,8],[8,9],[9,0],[9,1],[9,8],[9,9],[10,0],[10,1],[10,8],[10,9],[11,0],[11,1],[13,8],[13,9],[14,8],[14,9]],
       theme: { primary: '#d9dbff', deep: '#6b72bb', glow: '#ffffff', fogA: '#afb7ff', fogB: '#10112d' }, decor: ['🌕', '🏛️', '✨'],
       shape: ["1111111111","1111111110","0111111110","0111111111","0111111111","1111111111","1111111110","0111111110","0111111111","1111111111","1111111111","1111111110","0111111110","0111111111","0111111111","1111111111","1111111110","0111111110","0111111111","1111111111","0111111110"] },
-    { n: 14, name: "Bone Cathedral", cols: 10, rows: 21, moves: 92, target: 10800, tiles: [0, 1, 2, 3, 4, 7],
+    { n: 14, name: "Bone Cathedral", cols: 10, rows: 21, moves: 92, target: 10800, tiles: [0, 1, 2, 3, 4, 7], stones: [[6,3,0],[6,4,1],[6,5,0],[6,6,1]], pumpkinPreview: [[5,1],[5,2],[5,3],[5,4],[5,5],[5,6],[5,7],[5,8],[6,1],[6,2],[6,7],[6,8],[7,3],[7,4],[7,5],[7,6]],
       theme: { primary: '#fff2c5', deep: '#af8954', glow: '#fffbe5', fogA: '#c69b61', fogB: '#25140b' }, decor: ['🦴', '⛪', '🕯️'],
       shape: ["0000110000","0001111000","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000","0001111000","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000","0000110000","0000110000"] },
-    { n: 15, name: "Haunted Carnival", cols: 10, rows: 22, moves: 96, target: 11800, tiles: [0, 1, 2, 3, 5, 6],
+    { n: 15, name: "Haunted Carnival", cols: 10, rows: 22, moves: 96, target: 11800, tiles: [0, 1, 2, 3, 5, 6], stones: [[3,4,13],[3,5,12],[11,4,13],[11,5,12]], pumpkinPreview: [[2,3],[2,4],[2,5],[2,6],[3,3],[3,6],[4,3],[4,4],[4,5],[4,6],[10,3],[10,4],[10,5],[10,6],[11,3],[11,6],[12,3],[12,4],[12,5],[12,6]],
       theme: { primary: '#ff6fbd', deep: '#9b2570', glow: '#ffd0ec', fogA: '#ff4aa9', fogB: '#31051f' }, decor: ['🎪', '🎈', '🎭'],
       shape: ["0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000","0001111000","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000","0001111000","0011111100","0111111110","1111111111","0111111110"] },
-    { n: 16, name: "Nightmare Keep", cols: 10, rows: 22, moves: 100, target: 13000, tiles: [0, 1, 2, 3, 4, 7],
+    { n: 16, name: "Nightmare Keep", cols: 10, rows: 22, moves: 100, target: 13000, tiles: [0, 1, 2, 3, 4, 7], stones: [[5,4,12],[5,5,13],[11,4,12],[11,5,13]], pumpkinPreview: [[2,1],[2,2],[2,7],[2,8],[3,1],[3,2],[3,7],[3,8],[4,3],[4,4],[4,5],[4,6],[5,3],[5,6],[6,3],[6,4],[6,5],[6,6],[8,1],[8,2],[8,7],[8,8],[9,1],[9,2],[9,7],[9,8],[10,3],[10,4],[10,5],[10,6],[11,3],[11,6],[12,3],[12,4],[12,5],[12,6]],
       theme: { primary: '#a98bff', deep: '#4d318b', glow: '#e5ddff', fogA: '#7e5ce6', fogB: '#100729' }, decor: ['🏰', '⚔️', '🦇'],
       shape: ["1111001111","1111001111","1111001111","1111111111","1111111111","0111111110","0111111110","1111111111","1111111111","1111111111","1111111111","0111111110","0111111110","1111111111","1111111111","1111001111","1111001111","1111001111","1111001111","1111001111","1111001111","1111001111"] },
-    { n: 17, name: "Spectral Observatory", cols: 10, rows: 23, moves: 104, target: 14200, tiles: [0, 1, 2, 3, 5, 6],
+    { n: 17, name: "Spectral Observatory", cols: 10, rows: 23, moves: 104, target: 14200, tiles: [0, 1, 2, 3, 5, 6], stones: [[3,1,0],[3,2,1],[4,1,2],[4,2,3],[5,1,4],[5,2,5],[5,3,6],[5,4,7],[6,1,8],[6,2,9],[6,3,10],[6,4,11],[3,8,12],[3,7,13],[4,8,14],[4,7,15],[5,8,16],[5,7,17],[5,6,18],[5,5,19],[6,8,20],[6,7,21],[6,6,22],[6,5,23]], pumpkinPreview: [[3,3],[3,4],[3,5],[3,6],[4,3],[4,4],[4,5],[4,6]],
       theme: { primary: '#57efff', deep: '#176f9b', glow: '#cfffff', fogA: '#32c4db', fogB: '#041b30' }, decor: ['🔭', '☄️', '🌌'],
       shape: ["0001111000","0011111100","0111111110","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000","0001111000","0011111100","0111111110","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000","0001111000","0011111100","0111111110","1111111111","0111111110"] },
-    { n: 18, name: "Black Lagoon", cols: 10, rows: 23, moves: 108, target: 15600, tiles: [0, 1, 2, 3, 4, 7],
+    { n: 18, name: "Black Lagoon", cols: 10, rows: 23, moves: 108, target: 15600, tiles: [0, 1, 2, 3, 4, 7], stones: [[6,3,12],[6,4,13],[6,5,12],[6,6,13],[7,3,13],[7,6,12],[8,3,12],[8,6,13],[9,3,13],[9,4,12],[9,5,13],[9,6,12]], pumpkinPreview: [[3,1],[3,2],[4,1],[4,2],[3,7],[3,8],[4,7],[4,8],[11,1],[11,2],[12,1],[12,2],[11,7],[11,8],[12,7],[12,8]],
       theme: { primary: '#4ee2b1', deep: '#147358', glow: '#c2ffe7', fogA: '#23b78b', fogB: '#03241f' }, decor: ['🌊', '🐊', '💀'],
-      shape: ["0111111110","1111111111","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000","0001111000","0011111100","0111111110","1111111111","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000","0001111000","0011111100","0111111110","1111111111","0111111110"] },
-    { n: 19, name: "Dragon's Reliquary", cols: 10, rows: 24, moves: 112, target: 17100, tiles: [0, 1, 2, 3, 5, 6],
+      shape: ["0111111110","1111111111","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000","0001111000","0011111100","0111111110","1111111111","1111111111","1111111111","0111111110","0111111110","0011111100","0001111000","0001111000","0011111100","0111111110","1111111111","0111111110"] },
+    { n: 19, name: "Dragon's Reliquary", cols: 10, rows: 24, moves: 112, target: 17100, tiles: [0, 1, 2, 3, 5, 6], stones: [[3,4,12],[3,5,13],[4,3,13],[4,4,12],[4,5,13],[4,6,12],[5,4,13],[5,5,12],[9,1,12],[9,2,13],[9,7,13],[9,8,12],[10,1,13],[10,8,13],[11,1,12],[11,2,13],[11,7,13],[11,8,12],[12,1,13],[12,8,13]], pumpkinPreview: [[6,0],[6,1],[7,0],[7,1],[6,8],[6,9],[7,8],[7,9]],
       theme: { primary: '#ff9d4b', deep: '#a83f19', glow: '#ffe1b0', fogA: '#f46b28', fogB: '#321006' }, decor: ['🐉', '🔥', '🪙'],
-      shape: ["0000110000","0001111000","0011111100","0111111110","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000","0001111000","0011111100","0111111110","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000","0000110000","0000110000","0000110000"] },
-    { n: 20, name: "Midnight Crown", cols: 10, rows: 24, moves: 116, target: 18800, tiles: [0, 1, 2, 3, 4, 7],
+      shape: ["0001111000","0001111000","0011111100","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","0111111110","0111111110","0111111110","0111111110","0111111110","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000","0000110000","0000110000","0000110000"] },
+    { n: 20, name: "Midnight Crown", cols: 10, rows: 24, moves: 116, target: 18800, tiles: [0, 1, 2, 3, 4, 7], stones: [[10,1,8],[10,2,9],[10,7,21],[10,8,20],[11,1,10],[11,2,11],[11,7,23],[11,8,22]], pumpkinPreview: [[0,1],[0,3],[0,5],[0,7],[0,9],[4,2],[4,3],[4,6],[4,7],[5,2],[5,3],[5,6],[5,7],[6,2],[6,3],[6,6],[6,7],[7,2],[7,3],[7,6],[7,7],[8,2],[8,3],[8,6],[8,7],[9,2],[9,3],[9,6],[9,7]],
       theme: { primary: '#f7d85b', deep: '#a57616', glow: '#fff3ad', fogA: '#d9ad31', fogB: '#201403' }, decor: ['👑', '⚡', '🌙'],
-      shape: ["1010101010","1111111111","0111111110","0011111100","0001111000","0000110000","0001111000","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000","0001111000","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000"] },
+      shape: ["1111111111","1111111111","0111111110","0011111100","0011111100","0011111100","0011111100","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0011111100","0011111100","0001111000","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000"] },
     { n: 21, name: "Twilight Gatehouse", cols: 10, rows: 13, moves: 120, target: 20500, tiles: [0,1,2,3,4,5],
       theme: { primary:'#fa8edc', deep:'#7e256f', glow:'#ffd2f5', fogA:'#d94fc1', fogB:'#22071f' }, decor:['🏰','🌸','⚔️'],
       stones:[[3,1,0],[3,2,7],[4,1,12],[4,2,18],[3,7,3],[3,8,10],[4,7,15],[4,8,21]],
@@ -1801,12 +1843,26 @@
       shape:["1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111"] },
   ];
 
-  // Phone boards stay compact and tappable. Tall source patterns are trimmed
-  // rather than rendering 14–24 rows of live tiles on a small device.
-  const MAX_LEVEL_ROWS = 13;
+  // Phone boards remain tappable while later levels gain more room to breathe:
+  // 11–20 use 15 rows, and 21–30 grow to 18 rows.
+  function fitLevelHeight(level) {
+    const targetRows = level.n >= 21 ? 18 : level.n >= 11 ? 15 : level.shape.length;
+    if (level.shape.length > targetRows) level.shape = level.shape.slice(0, targetRows);
+    if (level.shape.length < targetRows) {
+      // Extend the middle of the silhouette, keeping its top and bottom caps intact.
+      const insertAt = Math.floor(level.shape.length / 2);
+      const addedRows = targetRows - level.shape.length;
+      const bridgeRow = level.shape[insertAt] || '1'.repeat(level.cols);
+      level.shape.splice(insertAt, 0, ...Array(addedRows).fill(bridgeRow));
+      // Existing lower obstacles move with the lower half of the original shape.
+      if (level.stones) level.stones = level.stones.map(([row, col, style]) => [row >= insertAt ? row + addedRows : row, col, style]);
+    }
+    level.rows = level.shape.length;
+  }
   // Stone-free later levels get one solid, symmetrical obstacle formation rather than scattered blockers.
   function addDefaultStoneLayout(level) {
-    if (level.stones && level.stones.length) return;
+    // An explicit empty array is a hand-authored "no stones" instruction.
+    if (Array.isArray(level.stones)) return;
     if (level.n < 6) {
       const row = Math.max(1, Math.floor(level.rows / 2));
       const left = Math.max(1, Math.floor(level.cols / 2) - 1);
@@ -1928,10 +1984,7 @@
     }
   }
   LEVELS.forEach((level) => {
-    if (level.rows > MAX_LEVEL_ROWS) {
-      level.shape = level.shape.slice(0, MAX_LEVEL_ROWS);
-      level.rows = MAX_LEVEL_ROWS;
-    }
+    fitLevelHeight(level);
     addDefaultStoneLayout(level);
   });
 
@@ -1943,6 +1996,8 @@
     // Pumpkins enter the campaign only after the player has learned the
     // regular stone mechanic.
     if (level.n < 11) { level.pumpkinPreview = []; return; }
+    // Hand-arranged levels can explicitly supply a pumpkin formation—or none at all.
+    if (Array.isArray(level.pumpkinPreview)) return;
     const stones = new Set((level.stones || []).map(([row, col]) => row + ':' + col));
     const usable = (cells) => cells.every(([row, col]) => level.shape[row]?.[col] === '1' && !stones.has(row + ':' + col));
     const choose = (makeCells) => {
@@ -2080,6 +2135,7 @@
         if (rr < 0 || rr >= ROWS || cc < 0 || cc >= COLS) continue;
         const neighbor = idx(rr, cc);
         if (isStone(board[neighbor])) stonesToDamage.add(neighbor);
+        if (board[neighbor]?.special === 'pumpkin') pumpkinsToDamage.add(neighbor);
       }
     }
     for (const cell of cellSet) if (!isStone(board[cell]) && board[cell]?.special !== 'pumpkin') board[cell] = null;
@@ -2125,9 +2181,9 @@
       stone.hits--;
       if (stone.hits <= 0) board[cell] = null;
     }
-    // Pumpkins only react when a power-up directly crosses their own cell.
-    // The first strike leaves a bright, persistent warning glow; the second
-    // clears the tile normally.
+    // A power effect landing on a pumpkin—or clipping one of its four edges—
+    // counts as a hit. The first strike leaves a persistent glow; the second
+    // clears it.
     for (const cell of pumpkinsToDamage) {
       const pumpkin = board[cell];
       if (!pumpkin || pumpkin.special !== 'pumpkin') continue;
@@ -2711,8 +2767,6 @@
   'use strict';
   const core = window.__gameCore;
   const { TILE_TYPES, TILE_ICON_SRC, STONE_TILE_SRC, STONE_VARIANTS, STONE_GLOW_SRC, STONE_PALETTES, LEVELS } = core;
-  // New blue/pink/purple emitter palettes are deliberately preview-only until approved.
-  const colorSecondPreview = new URLSearchParams(window.location.search).get('stone-preview') === 'color-second';
 
   const boardEl = document.getElementById('board');
   const movesValEl = document.getElementById('moves-val');
@@ -2726,6 +2780,7 @@
   const hudEl = document.querySelector('.hud');
   const startScreen = document.getElementById('start-screen');
   const gameScreen = document.getElementById('game-screen');
+  const freePlayCountdownEl = document.getElementById('free-play-countdown');
   const modalOverlay = document.getElementById('modal-overlay');
   const modalCard = document.getElementById('modal-card');
   const levelSelectEl = document.getElementById('level-select');
@@ -2754,6 +2809,7 @@
   let freePlaySecondsLeft = FREE_PLAY_SECONDS;
   let freePlayRemainingMs = FREE_PLAY_SECONDS * 1000;
   let freePlayTimer = null;
+  let freePlayCountdownTimer = null;
   let freePlayBest = 0;
   try { freePlayBest = Number(localStorage.getItem('monster-smash-free-play-best')) || 0; } catch (_) {}
   let holeDecor = new Map(); // index -> decorative emoji, purely cosmetic, UI-side only
@@ -3351,8 +3407,10 @@
         // Once awakened, the supplied object glow remains visible through the damaged/emitter state.
         const stoneIndex = tile.stone % STONE_VARIANTS.length;
         const variant = STONE_VARIANTS[stoneIndex] || STONE_VARIANTS[0];
-        const palette = colorSecondPreview ? (STONE_PALETTES[Math.floor(stoneIndex / 6)] || STONE_PALETTES[0]) : STONE_PALETTES[1];
-        const glowSrc = colorSecondPreview ? palette.glow[variant[1]] : STONE_GLOW_SRC[variant[1]];
+        // The artwork index encodes its color family in groups of six, so every
+        // hit state stays in the original stone's palette.
+        const palette = STONE_PALETTES[Math.floor(stoneIndex / 6)] || STONE_PALETTES[0];
+        const glowSrc = palette.glow[variant[1]] || STONE_GLOW_SRC[variant[1]];
         const stoneGlow = tile.hits <= 2 ? '<img class="stone-glow" src="' + glowSrc + '" alt="">' : '';
         el.innerHTML = '<img class="stone-art" src="' + variant[0] + '" alt="Breakable stone">' + stoneGlow + (tile.hits === 1 ? stoneDamageMarkup(palette) : '');
       } else if (tile.special === 'bat-cave') {
@@ -3369,7 +3427,7 @@
         const glyph = tile.special === 'cross' ? '\u26a1' : tile.special === 'blast' ? '\ud83d\udca5' : TILE_TYPES[tile.type];
         el.innerHTML = '<span class="tile-glyph">' + glyph + '</span>';
       }
-      let cls = tile.stone !== undefined ? 'tile stone-block stone-style-' + tile.stone + ' stone-palette-' + (colorSecondPreview ? (STONE_PALETTES[Math.floor((tile.stone % STONE_VARIANTS.length) / 6)] || STONE_PALETTES[0]).key : 'green') + ' stone-hits-' + tile.hits : 'tile type-' + tile.type;
+      let cls = tile.stone !== undefined ? 'tile stone-block stone-style-' + tile.stone + ' stone-palette-' + (STONE_PALETTES[Math.floor((tile.stone % STONE_VARIANTS.length) / 6)] || STONE_PALETTES[0]).key + ' stone-hits-' + tile.hits : 'tile type-' + tile.type;
       if (tile.special === 'cross') cls += ' special-cross';
       if (tile.special === 'orb') cls += ' special-orb';
       if (tile.special === 'blast') cls += ' special-blast';
@@ -3803,21 +3861,33 @@
     return Math.floor(wholeSeconds / 60) + ':' + String(wholeSeconds % 60).padStart(2, '0');
   }
 
+  function paintFreePlayTimer(elapsedSeconds) {
+    const progress = Math.max(0, Math.min(1, elapsedSeconds / FREE_PLAY_SECONDS));
+    movesLiquidEl.style.width = (progress * 100) + '%';
+    // The label travels with the end of the fill: left-aligned at 0:00 and
+    // right-aligned at 1:30, without changing the bar's direction.
+    movesUsedEl.style.left = (progress * 100) + '%';
+    movesUsedEl.style.transform = 'translateX(-' + (progress * 100) + '%)';
+  }
+
   function updateHUD() {
     brewScoreEl.textContent = core.score.toLocaleString();
     if (core.freePlay) {
       const elapsedSeconds = FREE_PLAY_SECONDS - (freePlayRemainingMs / 1000);
-      potionPctEl.textContent = freePlayBest.toLocaleString();
+      // The live HUD focuses on the current run; Best remains on Time's Up.
+      potionPctEl.textContent = '';
       movesUsedEl.textContent = formatClock(Math.floor(elapsedSeconds));
       movesValEl.textContent = '';
       potionLiquidEl.style.width = Math.min(100, (core.score / Math.max(5000, freePlayBest || 0)) * 100) + '%';
-      movesLiquidEl.style.width = ((elapsedSeconds / FREE_PLAY_SECONDS) * 100) + '%';
+      paintFreePlayTimer(elapsedSeconds);
       const timerMeter = movesLiquidEl.closest('.mana-meter');
       timerMeter.setAttribute('aria-label', 'Time remaining');
       timerMeter.classList.toggle('low', freePlaySecondsLeft <= 5);
       return;
     }
     movesLiquidEl.closest('.mana-meter').setAttribute('aria-label', 'Moves used');
+    movesUsedEl.style.left = '';
+    movesUsedEl.style.transform = '';
     const movesLeft = Math.max(0, core.movesLeft);
     const movesUsed = Math.max(0, levelMovesTotal - movesLeft);
     movesUsedEl.textContent = movesUsed.toLocaleString();
@@ -4057,6 +4127,61 @@
     freePlayTimer = null;
   }
 
+  function clearFreePlayCountdown() {
+    if (freePlayCountdownTimer) clearTimeout(freePlayCountdownTimer);
+    freePlayCountdownTimer = null;
+    freePlayCountdownEl.classList.add('hidden');
+  }
+
+  function runFreePlayCountdown(onGo) {
+    clearFreePlayCountdown();
+    const caption = freePlayCountdownEl.querySelector('span');
+    const show = (text) => {
+      caption.textContent = text;
+      caption.style.animation = 'none';
+      void caption.offsetWidth;
+      caption.style.animation = '';
+    };
+    show('READY');
+    freePlayCountdownEl.classList.remove('hidden');
+    freePlayCountdownTimer = setTimeout(() => {
+      show('GO!');
+      freePlayCountdownTimer = setTimeout(() => {
+        freePlayCountdownTimer = null;
+        freePlayCountdownEl.classList.add('hidden');
+        onGo();
+      }, 650);
+    }, 850);
+  }
+
+  function startFreePlayTimer() {
+    const freePlayStartedAt = performance.now();
+    let lastTimerPaintAt = 0;
+    const tickFreePlayTimer = (now) => {
+      if (core.freePlayOver) return;
+      freePlayRemainingMs = Math.max(0, FREE_PLAY_SECONDS * 1000 - (now - freePlayStartedAt));
+      const nextSeconds = Math.ceil(freePlayRemainingMs / 1000);
+      // The fill itself updates every frame; the numeral needs to change only
+      // when the visible second changes.
+      if (!lastTimerPaintAt || now - lastTimerPaintAt >= 33) {
+        paintFreePlayTimer(FREE_PLAY_SECONDS - (freePlayRemainingMs / 1000));
+        lastTimerPaintAt = now;
+      }
+      if (nextSeconds !== freePlaySecondsLeft) {
+        freePlaySecondsLeft = nextSeconds;
+        updateHUD();
+      }
+      if (freePlayRemainingMs === 0) {
+        stopFreePlayTimer();
+        core.freePlayOver = true;
+        endGame(false);
+        return;
+      }
+      freePlayTimer = requestAnimationFrame(tickFreePlayTimer);
+    };
+    freePlayTimer = requestAnimationFrame(tickFreePlayTimer);
+  }
+
   function showMainMenu() {
     gameModeChoiceEl.classList.remove('hidden');
     levelSelectWrapEl.classList.add('hidden');
@@ -4099,32 +4224,12 @@
     startScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
     gameScreen.classList.add('free-play');
-    scheduleMoveHint();
-    const freePlayStartedAt = performance.now();
-    let lastTimerPaintAt = 0;
-    const tickFreePlayTimer = (now) => {
-      if (core.freePlayOver) return;
-      freePlayRemainingMs = Math.max(0, FREE_PLAY_SECONDS * 1000 - (now - freePlayStartedAt));
-      const nextSeconds = Math.ceil(freePlayRemainingMs / 1000);
-      // The fill itself updates every frame; the numeral needs to change only
-      // when the visible second changes.
-      if (!lastTimerPaintAt || now - lastTimerPaintAt >= 33) {
-        movesLiquidEl.style.width = ((freePlayRemainingMs / (FREE_PLAY_SECONDS * 1000)) * 100) + '%';
-        lastTimerPaintAt = now;
-      }
-      if (nextSeconds !== freePlaySecondsLeft) {
-        freePlaySecondsLeft = nextSeconds;
-        updateHUD();
-      }
-      if (freePlayRemainingMs === 0) {
-        stopFreePlayTimer();
-        core.freePlayOver = true;
-        endGame(false);
-        return;
-      }
-      freePlayTimer = requestAnimationFrame(tickFreePlayTimer);
-    };
-    freePlayTimer = requestAnimationFrame(tickFreePlayTimer);
+    core.isBusy = true;
+    runFreePlayCountdown(() => {
+      core.isBusy = false;
+      scheduleMoveHint();
+      startFreePlayTimer();
+    });
   }
 
   function startLevel(levelNum) {
@@ -4151,7 +4256,6 @@
     clearMoveHint();
     core.setActiveTileTypes(lvl.tiles);
     core.createBoard(lvl.cols, lvl.rows, lvl.shape);
-    core.placeStoneBlocks(lvl.stones);
     // Visual trial for Level 11 only.  It shares normal gravity, but trades
     // are blocked above so we can judge the look before defining its full rule set.
     if (lvl.pumpkinPreview) {
@@ -4160,6 +4264,9 @@
         if (!core.isHole(cell)) core.board[cell] = { type: 0, special: 'pumpkin', hits: 2 };
       }
     }
+    // Stones are placed last so hand-arranged stone centers always remain visible
+    // inside their surrounding pumpkin frames.
+    core.placeStoneBlocks(lvl.stones);
     // Visual QA route only: lets us inspect stone states without changing rules.
     const stonePreview = new URLSearchParams(window.location.search).get('stone-preview');
     if (stonePreview) {
@@ -4271,12 +4378,12 @@
 <!-- Online leaderboard add-on (shared with Potion Machine). Self-contained: it
      never changes the game itself — see leaderboard/monster-hook.js. If these
      fail to load, the game plays exactly as before. -->
-<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="leaderboard/lb-kit.css">
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="leaderboard/lb-kit.js"></script>
-<script src="leaderboard/monster-hook.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="leaderboard/lb-kit.css?v=20260928-pickerfix">
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script defer src="leaderboard/lb-kit.js?v=20260928-pickerfix"></script>
+<script defer src="leaderboard/monster-hook.js?v=20260928-pickerfix"></script>
 </body>
 </html>
