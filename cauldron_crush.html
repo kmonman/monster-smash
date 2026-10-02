@@ -233,15 +233,15 @@
     overflow:hidden;
     background:radial-gradient(circle at 34% 22%,#ffd46f 0 5%,#ff9a1e 23%,#e95b0b 59%,#7b2207 100%);
     border-color:#ffc15b;
-    box-shadow:inset 0 2px 2px rgba(255,244,184,.55),inset 0 -6px 9px rgba(10,2,11,.86),0 0 10px rgba(255,102,17,.58);
+    box-shadow:inset 0 2px 2px rgba(255,244,184,.55),inset 0 -6px 9px rgba(10,2,11,.86);
     cursor:not-allowed;
   }
-  .pumpkin-tile-art{position:absolute;z-index:2;inset:7%;width:86%;height:86%;object-fit:contain;filter:drop-shadow(0 3px 2px rgba(22,3,0,.84)) drop-shadow(0 0 5px rgba(255,122,20,.75));animation:pumpkinTileFlicker 1.7s ease-in-out infinite;}
-  .tile.special-pumpkin::before{content:'';position:absolute;z-index:1;inset:16%;border-radius:50%;background:radial-gradient(circle,rgba(255,213,85,.38),rgba(255,95,9,.18) 47%,transparent 70%);filter:blur(5px);animation:pumpkinTileGlow 1.7s ease-in-out infinite;}
+  .pumpkin-tile-art{position:absolute;z-index:2;inset:7%;width:86%;height:86%;object-fit:contain;filter:drop-shadow(0 3px 2px rgba(22,3,0,.84));}
+  .tile.special-pumpkin::before{content:'';position:absolute;z-index:1;inset:16%;border-radius:50%;background:radial-gradient(circle,rgba(255,213,85,.38),rgba(255,95,9,.18) 47%,transparent 70%);opacity:0;}
   .tile.special-pumpkin::after{z-index:3;}
   /* First direct hit: the pumpkin stays put, but its carved face visibly wakes. */
   .tile.special-pumpkin.pumpkin-hit-1{box-shadow:0 0 0 1px #7a2507,0 0 16px rgba(255,124,18,.95),0 0 25px rgba(255,186,39,.56),inset 0 2px 2px rgba(255,247,192,.75),inset 0 -6px 9px rgba(76,15,4,.66)!important;}
-  .tile.special-pumpkin.pumpkin-hit-1::before{inset:5%;background:radial-gradient(circle,rgba(255,248,171,.92) 0 15%,rgba(255,179,27,.66) 35%,rgba(255,85,8,.3) 57%,transparent 74%);filter:blur(6px);animation:pumpkinHitGlow 1.05s ease-in-out infinite;}
+  .tile.special-pumpkin.pumpkin-hit-1::before{inset:5%;background:radial-gradient(circle,rgba(255,248,171,.92) 0 15%,rgba(255,179,27,.66) 35%,rgba(255,85,8,.3) 57%,transparent 74%);opacity:1;filter:blur(6px);animation:pumpkinHitGlow 1.05s ease-in-out infinite;}
   .tile.special-pumpkin.pumpkin-hit-1 .pumpkin-tile-art{filter:brightness(1.24) saturate(1.25) drop-shadow(0 3px 2px rgba(22,3,0,.84)) drop-shadow(0 0 10px rgba(255,202,61,.98));}
   @keyframes pumpkinTileFlicker{0%,100%{transform:scale(1);filter:brightness(1) drop-shadow(0 3px 2px rgba(22,3,0,.84)) drop-shadow(0 0 5px rgba(255,122,20,.75))}50%{transform:scale(1.025);filter:brightness(1.16) drop-shadow(0 3px 2px rgba(22,3,0,.84)) drop-shadow(0 0 8px rgba(255,151,33,.9))}}
   @keyframes pumpkinTileGlow{50%{transform:scale(1.11);opacity:.72}}
@@ -357,6 +357,18 @@
     position:fixed;inset:0;z-index:19;display:grid;place-items:center;pointer-events:all;
     background:rgba(8,5,38,.34);backdrop-filter:blur(2px);
   }
+  #free-play-score-reveal{
+    position:fixed;inset:0;z-index:19;display:grid;place-items:center;pointer-events:all;
+    background:rgba(8,5,38,.52);backdrop-filter:blur(5px);
+  }
+  .free-play-score-reveal-card{color:#d8f8ff;text-align:center;animation:freePlayScoreRevealIn .42s cubic-bezier(.18,.9,.25,1) both;}
+  .free-play-score-reveal-label{font:900 clamp(21px,6vw,38px)/1 'Quicksand',sans-serif;letter-spacing:.08em;text-shadow:0 0 8px #91edff,0 0 20px #3bbce3;}
+  .free-play-score-reveal-value{margin-top:9px;font:900 clamp(42px,13vw,76px)/1 'JetBrains Mono',monospace;color:var(--slime);text-shadow:0 0 10px rgba(166,255,92,.8),0 0 28px rgba(59,188,227,.55);}
+  @keyframes freePlayScoreRevealIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  /* Free Play ends with the same deliberate glass-over-board pause as READY / GO. */
+  #modal-overlay.free-play-result{background:rgba(8,5,38,.52);backdrop-filter:blur(5px);}
+  #modal-overlay.free-play-result .modal-card{animation:freePlayResultIn .38s cubic-bezier(.18,.9,.25,1) both;}
+  @keyframes freePlayResultIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
   #free-play-countdown span{
     color:#d8f8ff;font:900 clamp(26px,8vw,52px)/1 'Quicksand',sans-serif;letter-spacing:.04em;
     text-shadow:0 0 8px #91edff,0 0 20px #3bbce3,0 4px 0 #0a3856;
@@ -372,6 +384,8 @@
   .modal-sub{ color: var(--bone-dim); font-size:13.5px; margin: 0 0 1.4em; }
   .modal-score{ font-size:12px; letter-spacing:1px; text-transform:uppercase; color: var(--bone-dim); margin-bottom:1.6em; }
   .modal-score span{ display:block; font-family:'JetBrains Mono', monospace; font-size:30px; color: var(--slime); margin-top:4px; }
+  .free-play-high-score{ margin-top:13px; padding-top:12px; border-top:1px solid rgba(184,243,255,.24); color:var(--bone); font-size:12px; font-weight:800; letter-spacing:1.1px; }
+  .free-play-high-score strong{ display:block; margin-top:3px; font-family:'JetBrains Mono', monospace; font-size:22px; color:var(--glow); }
   .modal-actions{ display:flex; flex-direction:column; gap:10px; }
   .btn{ font-family:'Quicksand'; font-weight:700; font-size:14px; padding: 12px 18px; border-radius: 12px; cursor:pointer; border:none; }
   .btn-primary{ background: linear-gradient(160deg, var(--pumpkin), var(--pumpkin-deep)); color:#1a0d05; box-shadow: 0 8px 20px rgba(255,122,26,.3); }
@@ -1365,7 +1379,7 @@
   /* Keep the glass depth, but let the material—not a hard outline—separate ordinary tiles. */
   #game-screen .tile:not(.stone-block){border-color:transparent!important;}
   /* The pumpkin is the lone exception: its amber rim is a deliberate gameplay cue. */
-  #game-screen .tile.special-pumpkin{background:radial-gradient(circle at 34% 22%,#ffe089 0 5%,#ffad2e 23%,#ed650d 59%,#8b2607 100%)!important;border:2px solid #ffc15b!important;box-shadow:0 0 0 1px #7a2507,0 0 12px rgba(255,112,20,.78),inset 0 2px 2px rgba(255,247,192,.66),inset 0 -6px 9px rgba(76,15,4,.72)!important;}
+  #game-screen .tile.special-pumpkin{background:radial-gradient(circle at 34% 22%,#ffe089 0 5%,#ffad2e 23%,#ed650d 59%,#8b2607 100%)!important;border:2px solid #ffc15b!important;box-shadow:0 0 0 1px #7a2507,inset 0 2px 2px rgba(255,247,192,.66),inset 0 -6px 9px rgba(76,15,4,.72)!important;}
   /* One compact title row replaces the old, separate Level pill. */
   #game-screen>.level-name-banner{margin:3px 0 8px!important;}
   /* On phones, every HUD icon reduces from the desktop 55px bubble at the same rate. */
@@ -1535,6 +1549,7 @@
 </div>
 
 <div id="free-play-countdown" class="hidden" aria-live="assertive" aria-atomic="true"><span></span></div>
+<div id="free-play-score-reveal" class="hidden" aria-live="assertive" aria-atomic="true"></div>
 
 <div id="modal-overlay" class="hidden">
   <div class="modal-card" id="modal-card"></div>
@@ -1803,39 +1818,39 @@
       shape: ["1111111111","1111111111","0111111110","0011111100","0011111100","0011111100","0011111100","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0011111100","0011111100","0001111000","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100","0001111000","0000110000"] },
     { n: 21, name: "Twilight Gatehouse", cols: 10, rows: 13, moves: 120, target: 20500, tiles: [0,1,2,3,4,5],
       theme: { primary:'#fa8edc', deep:'#7e256f', glow:'#ffd2f5', fogA:'#d94fc1', fogB:'#22071f' }, decor:['🏰','🌸','⚔️'],
-      stones:[[3,1,0],[3,2,7],[4,1,12],[4,2,18],[3,7,3],[3,8,10],[4,7,15],[4,8,21]],
+      stones:[[4,2,0],[4,3,6],[4,4,12],[4,5,18],[4,6,6],[4,7,0],[8,2,18],[8,3,12],[8,4,6],[8,5,0],[8,6,12],[8,7,18]], pumpkinPreview:[[3,2],[3,3],[3,4],[3,5],[3,6],[3,7],[5,2],[5,3],[5,4],[5,5],[5,6],[5,7],[12,2],[12,3],[12,4],[12,5],[12,6],[12,7],[14,2],[14,3],[14,4],[14,5],[14,6],[14,7]],
       shape:["0111111110","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","0111111110"] },
     { n: 22, name: "Moonwell Mirrors", cols: 10, rows: 13, moves: 124, target: 22500, tiles: [0,1,2,3,4,5,7],
       theme: { primary:'#86dcff', deep:'#28558e', glow:'#d7f7ff', fogA:'#66aee8', fogB:'#071630' }, decor:['🌙','🪞','💧'],
-      stones:[[2,1,15],[2,2,9],[3,0,3],[3,1,16],[3,2,22],[3,3,4],[4,1,11],[4,2,17],[2,7,14],[2,8,8],[3,6,2],[3,7,19],[3,8,23],[3,9,5],[4,7,10],[4,8,20]],
+      stones:[], pumpkinPreview:[[2,1],[2,2],[2,7],[2,8],[3,0],[3,1],[3,2],[3,3],[3,6],[3,7],[3,8],[3,9],[4,1],[4,2],[4,7],[4,8],[8,1],[8,2],[8,3],[8,4],[8,5],[8,6],[8,7],[8,8],[9,1],[9,2],[9,3],[9,4],[9,5],[9,6],[9,7],[9,8],[15,2],[15,3],[15,4],[15,5],[15,6],[15,7],[16,3],[16,4],[16,5],[16,6]],
       shape:["0011111100","0111111110","1111111111","1111111111","1111111111","1111111111","0111111110","0011111100","0111111110","1111111111","1111111111","0111111110","0011111100"] },
     { n: 23, name: "Candle Tollroad", cols: 10, rows: 13, moves: 128, target: 24800, tiles: [0,1,2,3,4,5,6],
       theme: { primary:'#ffbe72', deep:'#a84b21', glow:'#fff0bc', fogA:'#ff7d38', fogB:'#2b0d05' }, decor:['🕯️','🛣️','🦇'],
-      stones:[[3,2,2],[3,3,8],[3,6,14],[3,7,20],[4,2,6],[4,3,12],[4,6,18],[4,7,0],[8,1,4],[8,2,10],[8,3,16],[8,6,22],[8,7,5],[8,8,11]],
+      stones:[[3,2,12],[3,3,13],[3,6,14],[3,7,15],[4,2,16],[4,3,17],[4,6,12],[4,7,13],[8,2,16],[8,3,17],[8,6,12],[8,7,13],[9,2,12],[9,3,13],[9,6,14],[9,7,15]], pumpkinPreview:[[0,4],[0,5],[1,4],[1,5],[2,4],[2,5],[3,4],[3,5],[4,4],[4,5],[13,4],[13,5],[14,4],[14,5],[15,4],[15,5],[16,4],[16,5],[17,4],[17,5]],
       shape:["1111111111","1111111111","0111111110","1111111111","1111111111","1111111111","0011111100","1111111111","1111111111","1111111111","0111111110","1111111111","1111111111"] },
     { n: 24, name: "Twin Hexes", cols: 10, rows: 13, moves: 132, target: 27200, tiles: [0,1,2,3,4,5,7],
       theme: { primary:'#b58aff', deep:'#55328e', glow:'#edddff', fogA:'#8d59e9', fogB:'#16072b' }, decor:['🔮','🧿','⚡'],
-      stones:[[2,1,18],[2,2,0],[3,1,6],[3,2,12],[4,1,3],[4,2,9],[4,3,15],[5,1,21],[5,2,4],[5,3,10],[2,8,19],[2,7,1],[3,8,7],[3,7,13],[4,8,5],[4,7,11],[4,6,17],[5,8,23],[5,7,2],[5,6,8]],
+      stones:[[2,1,0],[2,2,1],[3,1,2],[3,2,3],[4,1,4],[4,2,5],[4,3,0],[5,1,1],[5,2,2],[5,3,3],[2,8,19],[2,7,18],[3,8,21],[3,7,20],[4,8,18],[4,7,23],[4,6,22],[5,8,21],[5,7,20],[5,6,19],[7,1,12],[7,2,13],[7,3,14],[7,6,6],[7,7,7],[7,8,8],[8,1,15],[8,2,16],[8,3,17],[8,6,9],[8,7,10],[8,8,11],[9,1,12],[9,2,13],[9,7,6],[9,8,7],[10,1,14],[10,2,15],[10,7,8],[10,8,9]], pumpkinPreview:[],
       shape:["0111111110","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","0111111110"] },
     { n: 25, name: "Phantom Courtyard", cols: 10, rows: 13, moves: 136, target: 29800, tiles: [0,1,2,3,4,5,6],
       theme: { primary:'#81f2c7', deep:'#196c59', glow:'#d6fff0', fogA:'#42c99b', fogB:'#04221b' }, decor:['👻','🌿','🏛️'],
-      stones:[[3,3,1],[3,4,7],[3,5,13],[3,6,19],[4,3,5],[4,6,11],[5,3,17],[5,6,23],[6,3,0],[6,4,6],[6,5,12],[6,6,18],[8,1,2],[8,8,8]],
+      stones:[[3,3,0],[3,4,2],[3,5,12],[3,6,14],[4,3,2],[4,6,12],[5,3,14],[5,6,0],[6,3,2],[6,4,12],[6,5,14],[6,6,0],[8,1,0],[8,2,2],[8,3,12],[8,6,14],[8,7,0],[8,8,2]], fixedStones:[[5,1,12],[5,8,14],[6,1,0],[6,2,2],[6,7,12],[6,8,14],[7,1,0],[7,8,2]], pumpkinPreview:[],
       shape:["0001111000","0011111100","0111111110","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000"] },
     { n: 26, name: "Graveyard Bastions", cols: 10, rows: 13, moves: 140, target: 32500, tiles: [0,1,2,3,4,5,7],
       theme: { primary:'#c9c9d7', deep:'#58596e', glow:'#ffffff', fogA:'#9295b8', fogB:'#11111a' }, decor:['⚰️','🪦','🌫️'],
-      stones:[[2,1,5],[2,2,11],[3,1,17],[3,2,23],[2,7,4],[2,8,10],[3,7,16],[3,8,22],[8,1,3],[8,2,9],[9,1,15],[9,2,21],[8,7,2],[8,8,8],[9,7,14],[9,8,20]],
+      stones:[[2,1,18],[2,2,19],[3,1,20],[3,2,21],[2,7,12],[2,8,13],[3,7,14],[3,8,15],[9,1,12],[9,2,13],[10,1,14],[10,2,15],[9,7,18],[9,8,19],[10,7,20],[10,8,21]],
       shape:["1111111111","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000","0011111100","0111111110","1111111111","1111111111","1111111111","1111111111"] },
     { n: 27, name: "Serpent's Passage", cols: 10, rows: 13, moves: 144, target: 35500, tiles: [0,1,2,3,4,5,6],
       theme: { primary:'#8ceb55', deep:'#2c7030', glow:'#d9ffb8', fogA:'#65bd48', fogB:'#0a230c' }, decor:['🐍','🌿','🗝️'],
-      stones:[[2,2,0],[2,3,6],[2,4,12],[2,5,18],[2,6,4],[3,2,10],[3,6,16],[4,2,22],[4,6,5],[5,2,11],[5,3,17],[5,4,23],[5,5,1],[5,6,7],[8,3,3],[8,4,9],[8,5,15]],
+      stones:[[2,2,0],[2,3,6],[2,4,12],[2,5,18],[2,6,4],[3,2,10],[3,6,16],[4,2,22],[4,6,5],[5,2,11],[5,3,17],[5,4,23],[5,5,1],[5,6,7],[9,2,3],[9,3,9],[9,4,15],[9,5,21],[9,6,4],[10,2,10],[10,6,16],[11,2,22],[11,3,5],[11,4,11],[11,5,17],[11,6,23]], pumpkinPreview:[[3,3],[3,4],[3,5],[4,3],[4,4],[4,5],[15,3],[15,4],[15,5]],
       shape:["1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","0111111110","0011111100","0111111110","1111111111","1111111111","1111111111","1111111111"] },
     { n: 28, name: "Runebound Bridge", cols: 10, rows: 13, moves: 148, target: 38800, tiles: [0,1,2,3,4,5,7],
       theme: { primary:'#7ecbff', deep:'#24578c', glow:'#d8f3ff', fogA:'#4f9ed9', fogB:'#06172c' }, decor:['🪨','📜','🌉'],
-      stones:[[2,2,12],[2,3,18],[2,4,0],[2,5,6],[2,6,12],[2,7,18],[3,2,3],[3,3,9],[3,4,15],[3,5,21],[3,6,4],[3,7,10],[9,2,14],[9,3,20],[9,4,2],[9,5,8],[9,6,14],[9,7,20],[10,2,5],[10,3,11],[10,4,17],[10,5,23],[10,6,1],[10,7,7]],
+      stones:[[2,2,12],[2,3,18],[2,4,0],[2,5,6],[2,6,12],[2,7,18],[3,2,3],[3,3,9],[3,4,15],[3,5,21],[3,6,4],[3,7,10],[9,2,14],[9,3,20],[9,4,2],[9,5,8],[9,6,14],[9,7,20],[10,2,5],[10,3,11],[10,4,17],[10,5,23],[10,6,1],[10,7,7]], pumpkinPreview:[],
       shape:["0011111100","0111111110","1111111111","1111111111","1111111111","0111111110","0011111100","0111111110","1111111111","1111111111","1111111111","0111111110","0011111100"] },
     { n: 29, name: "Eclipse Vault", cols: 10, rows: 13, moves: 152, target: 42300, tiles: [0,1,2,3,4,5,6,7],
       theme: { primary:'#ed86ff', deep:'#65217b', glow:'#ffe0ff', fogA:'#c84ee0', fogB:'#210427' }, decor:['🌘','🔒','✨'],
-      stones:[[2,4,18],[3,3,0],[3,4,6],[3,5,12],[4,2,19],[4,3,1],[4,5,7],[4,6,13],[5,1,20],[5,2,2],[5,6,8],[5,7,14],[6,2,21],[6,3,3],[6,4,9],[6,5,15],[6,6,22],[6,7,4]],
+      stones:[[2,4,18],[2,5,0],[3,3,6],[3,4,12],[3,5,19],[3,6,1],[4,2,7],[4,3,13],[4,6,20],[4,7,2],[5,1,8],[5,2,14],[5,7,21],[5,8,3],[7,1,8],[7,2,14],[7,7,21],[7,8,3],[8,2,7],[8,3,13],[8,6,20],[8,7,2],[9,3,6],[9,4,12],[9,5,19],[9,6,1],[10,4,18],[10,5,0]], pumpkinPreview:[[4,4],[4,5],[5,3],[5,4],[5,5],[5,6],[12,3],[12,4],[12,5],[12,6],[13,4],[13,5]],
       shape:["0001111000","0011111100","0111111110","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","1111111111","0111111110","0011111100","0001111000"] },
     { n: 30, name: "The Last Ritual", cols: 10, rows: 13, moves: 156, target: 46000, tiles: [0,1,2,3,4,5,6,7],
       theme: { primary:'#f978c8', deep:'#7d1c60', glow:'#ffe0f4', fogA:'#d746a5', fogB:'#240518' }, decor:['🕯️','👑','💀'],
@@ -1985,6 +2000,8 @@
   }
   LEVELS.forEach((level) => {
     fitLevelHeight(level);
+    // Some hand-authored layouts target the expanded phone board directly.
+    if (Array.isArray(level.fixedStones)) level.stones = [...(level.stones || []), ...level.fixedStones];
     addDefaultStoneLayout(level);
   });
 
@@ -2781,6 +2798,7 @@
   const startScreen = document.getElementById('start-screen');
   const gameScreen = document.getElementById('game-screen');
   const freePlayCountdownEl = document.getElementById('free-play-countdown');
+  const freePlayScoreRevealEl = document.getElementById('free-play-score-reveal');
   const modalOverlay = document.getElementById('modal-overlay');
   const modalCard = document.getElementById('modal-card');
   const levelSelectEl = document.getElementById('level-select');
@@ -2810,6 +2828,9 @@
   let freePlayRemainingMs = FREE_PLAY_SECONDS * 1000;
   let freePlayTimer = null;
   let freePlayCountdownTimer = null;
+  let freePlayScoreRevealTimer = null;
+  let freePlaySettleTimer = null;
+  let freePlayEndPending = false;
   let freePlayBest = 0;
   try { freePlayBest = Number(localStorage.getItem('monster-smash-free-play-best')) || 0; } catch (_) {}
   let holeDecor = new Map(); // index -> decorative emoji, purely cosmetic, UI-side only
@@ -3008,11 +3029,8 @@
         return;
       }
       if (kind === 'mega-bomb') {
-        // The five-match bomb gets its own layered detonation; do not reuse
-        // the small bomb's thunder sample here.
-        bigBombSamples.forEach((sample) => {
-          playMediaSample(sample);
-        });
+        // The black Nightmare Bomb now uses the red Blast Charm's thunder.
+        playMediaSample(blastSample);
         return;
       }
       if (kind === 'clear') {
@@ -3037,7 +3055,10 @@
         return;
       }
       if (kind === 'blast') {
-        playMediaSample(blastSample);
+        // The red Blast Charm gets the black Nightmare Bomb's two-layer boom.
+        bigBombSamples.forEach((sample) => {
+          playMediaSample(sample);
+        });
         return;
       }
       const ctx = ensureAudio();
@@ -3904,6 +3925,7 @@
     modalOverlay.classList.remove('hidden');
   }
   function hideModal() {
+    modalOverlay.classList.remove('free-play-result');
     modalOverlay.classList.add('hidden');
   }
   function showPowerHelp(icon, title, copy) {
@@ -3957,10 +3979,14 @@
       }
       playSound(core.score > previousBest ? 'next-level' : 'lose');
       const isNewBest = core.score > previousBest;
+      // The board gets its final moment to settle, then this matches the
+      // countdown's blur treatment while the score is revealed.
+      modalOverlay.classList.add('free-play-result');
       showModal(
         '<h2 class="modal-title">Time\'s Up!</h2>' +
-        '<p class="modal-sub">' + (isNewBest ? 'New high score — incredible smashing!' : 'Thirty seconds of monster-smashing mayhem.') + '</p>' +
-        '<div class="modal-score">Score<br><span>' + core.score.toLocaleString() + '</span><br>Best: ' + freePlayBest.toLocaleString() + '</div>' +
+        '<p class="modal-sub">' + (isNewBest ? 'New high score — incredible smashing!' : 'Your time is up. Great smashing!') + '</p>' +
+        '<div class="modal-score">Final Score<br><span>' + core.score.toLocaleString() + '</span>' +
+          '<div class="free-play-high-score">High Score<strong>' + freePlayBest.toLocaleString() + '</strong></div></div>' +
         '<div class="modal-actions"><button class="btn btn-primary" id="free-replay-btn">Play Again</button><button class="btn btn-ghost" id="select-btn">Main Menu</button></div>'
       );
       const freeReplayBtn = document.getElementById('free-replay-btn');
@@ -4133,6 +4159,30 @@
     freePlayCountdownEl.classList.add('hidden');
   }
 
+  function clearFreePlayScoreReveal() {
+    if (freePlayScoreRevealTimer) clearTimeout(freePlayScoreRevealTimer);
+    freePlayScoreRevealTimer = null;
+    freePlayScoreRevealEl.classList.add('hidden');
+  }
+
+  function clearFreePlaySettlePause() {
+    if (freePlaySettleTimer) clearTimeout(freePlaySettleTimer);
+    freePlaySettleTimer = null;
+  }
+
+  function revealFreePlayScore(onDone) {
+    clearFreePlayScoreReveal();
+    freePlayScoreRevealEl.innerHTML =
+      '<div class="free-play-score-reveal-card"><div class="free-play-score-reveal-label">FINAL SCORE</div>' +
+      '<div class="free-play-score-reveal-value">' + core.score.toLocaleString() + '</div></div>';
+    freePlayScoreRevealEl.classList.remove('hidden');
+    freePlayScoreRevealTimer = setTimeout(() => {
+      freePlayScoreRevealTimer = null;
+      freePlayScoreRevealEl.classList.add('hidden');
+      onDone();
+    }, 1350);
+  }
+
   function runFreePlayCountdown(onGo) {
     clearFreePlayCountdown();
     const caption = freePlayCountdownEl.querySelector('span');
@@ -4174,12 +4224,33 @@
       if (freePlayRemainingMs === 0) {
         stopFreePlayTimer();
         core.freePlayOver = true;
-        endGame(false);
+        // Lock new moves immediately, but keep an in-progress cascade on screen
+        // until its final explosion and drop have completed.
+        freePlayEndPending = true;
+        finishFreePlayAfterEffects();
         return;
       }
       freePlayTimer = requestAnimationFrame(tickFreePlayTimer);
     };
     freePlayTimer = requestAnimationFrame(tickFreePlayTimer);
+  }
+
+  function finishFreePlayAfterEffects() {
+    if (!freePlayEndPending || !core.freePlay || !core.freePlayOver) return;
+    if (core.swapInProgress) {
+      requestAnimationFrame(finishFreePlayAfterEffects);
+      return;
+    }
+    freePlayEndPending = false;
+    // Let the final burst be seen clearly before the score sequence starts.
+    clearFreePlaySettlePause();
+    freePlaySettleTimer = setTimeout(() => {
+      freePlaySettleTimer = null;
+      if (!core.freePlay || !core.freePlayOver) return;
+      revealFreePlayScore(() => {
+        if (core.freePlay && core.freePlayOver) endGame(false);
+      });
+    }, 2000);
   }
 
   function showMainMenu() {
@@ -4197,6 +4268,9 @@
   function startFreePlay() {
     if (core.swapInProgress) return;
     stopFreePlayTimer();
+    clearFreePlayScoreReveal();
+    clearFreePlaySettlePause();
+    freePlayEndPending = false;
     core.freePlay = true;
     core.freePlayOver = false;
     core.currentLevel = 0;
@@ -4235,6 +4309,8 @@
   function startLevel(levelNum) {
     if (core.swapInProgress) return; // a previous swap is still resolving; refuse to reassign shared board state
     stopFreePlayTimer();
+    clearFreePlayScoreReveal();
+    clearFreePlaySettlePause();
     core.freePlay = false;
     core.freePlayOver = false;
     gameScreen.classList.remove('free-play');
@@ -4331,6 +4407,8 @@
   menuBtn.addEventListener('click', () => {
     if (core.isBusy) return;
     stopFreePlayTimer();
+    clearFreePlayScoreReveal();
+    clearFreePlaySettlePause();
     core.freePlay = false;
     core.freePlayOver = false;
     gameScreen.classList.add('hidden');
