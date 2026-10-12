@@ -1503,6 +1503,14 @@
     filter:none;
   }
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-06GGSXD2D7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-06GGSXD2D7');
+</script>
 </head>
 <body>
 
@@ -3999,6 +4007,14 @@
   if (gameInfoBtn) gameInfoBtn.addEventListener('click', showHowToPlay);
 
   function endGame(won) {
+    if (typeof gtag === 'function') {
+      gtag('event', 'game_complete', {
+        mode: core.freePlay ? (pumpkinChallenge ? 'pumpkin_challenge' : 'free_play') : 'level',
+        level: core.freePlay ? undefined : core.currentLevel,
+        result: core.freePlay ? 'time_up' : (won ? 'won' : 'lost'),
+        score: core.score
+      });
+    }
     core.isBusy = true;
     if (core.freePlay) {
       stopFreePlayTimer();
@@ -4306,6 +4322,7 @@
 
   function startFreePlay(mode = 'free') {
     if (core.swapInProgress) return;
+    if (typeof gtag === 'function') gtag('event', 'game_start', { mode: mode === 'pumpkin' ? 'pumpkin_challenge' : 'free_play' });
     stopFreePlayTimer();
     clearFreePlayScoreReveal();
     clearFreePlaySettlePause();
@@ -4348,6 +4365,7 @@
 
   function startLevel(levelNum) {
     if (core.swapInProgress) return; // a previous swap is still resolving; refuse to reassign shared board state
+    if (typeof gtag === 'function') gtag('event', 'game_start', { mode: 'level', level: levelNum });
     stopFreePlayTimer();
     clearFreePlayScoreReveal();
     clearFreePlaySettlePause();
