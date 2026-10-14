@@ -1300,6 +1300,7 @@
   /* Home mode chooser: campaign progression or a short score-attack run. */
   .game-mode-choice{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:700px;margin:28px auto 0;}
   .mode-card{min-height:148px;border:2px solid #29dcff;border-radius:20px;cursor:pointer;color:#fff;font:800 21px 'Quicksand',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:linear-gradient(145deg,#1d327b,#0b113d 64%,#070521);box-shadow:inset 0 2px 2px rgba(255,255,255,.23),inset 0 -7px 14px rgba(0,0,22,.56),0 6px 0 #050522,0 0 16px rgba(41,220,255,.28);transition:transform .16s ease,filter .16s ease;}
+  .game-mode-choice .mode-card{display:grid;grid-template-rows:64px 27px 15px;gap:0;align-content:center;justify-items:center;}
   .mode-card:hover{transform:translateY(-3px);filter:brightness(1.13);}
   .mode-card-icon{font-size:40px;line-height:1;filter:none;}
   .mode-levels .mode-card-icon{display:block;width:64px;height:64px;background:url('Levels Green.png') center/contain no-repeat;filter:none;}
@@ -1313,7 +1314,7 @@
   #start-screen:has(#level-select-wrap:not(.hidden)) .level-menu-back{display:grid!important;}
   @media (max-width:520px){.level-menu-back{width:45px;height:45px;font-size:30px;}}
   .mode-pumpkin{border-color:#ffad2e;background:linear-gradient(145deg,#7c3514,#361427 64%,#110720);box-shadow:inset 0 2px 2px rgba(255,255,255,.2),inset 0 -7px 14px rgba(30,4,0,.56),0 6px 0 #16040a,0 0 16px rgba(255,145,35,.31);}
-  .mode-pumpkin .mode-card-icon{display:block;width:58px;height:58px;background:url('Pumpkin/optimized/pumpkin-1.png') center/contain no-repeat;}
+  .mode-pumpkin .mode-card-icon{display:block;width:58px;height:58px;background:url('Pumpkin/optimized/pumpkin-3.png') center/contain no-repeat;}
   @media (max-width:520px){.game-mode-choice{grid-template-columns:repeat(2,minmax(0,1fr));}}
   @media (max-width:420px){.game-mode-choice{gap:10px;margin-top:21px}.mode-card{min-height:126px;border-radius:17px;font-size:18px}.mode-card-icon{font-size:34px}}
   /* Keep the bottom controls glassy, but let the board and HUD carry the neon. */
@@ -1528,8 +1529,8 @@
 
     <div class="game-mode-choice" id="game-mode-choice" aria-label="Choose game mode">
       <button class="mode-card mode-levels" id="levels-mode-btn"><span class="mode-card-icon" aria-hidden="true"></span><span>Levels</span></button>
-      <button class="mode-card mode-free-play" id="free-play-btn"><span class="mode-card-icon free-play-clock-icon" aria-hidden="true"></span><span>Free Play</span></button>
-      <button class="mode-card mode-pumpkin" id="pumpkin-challenge-btn"><span class="mode-card-icon" aria-hidden="true"></span><span>Pumpkin Challenge</span></button>
+      <button class="mode-card mode-free-play" id="free-play-btn"><span class="mode-card-icon free-play-clock-icon" aria-hidden="true"></span><span>Free Play</span><small>Leaderboard</small></button>
+      <button class="mode-card mode-pumpkin" id="pumpkin-challenge-btn"><span class="mode-card-icon" aria-hidden="true"></span><span>Pumpkin</span><small>Challenge</small></button>
     </div>
     <div class="level-select-wrap hidden" id="level-select-wrap">
       <div class="level-grid" id="level-select"></div>
@@ -4517,12 +4518,16 @@
 <!-- Online leaderboard add-on (shared with Potion Machine). Self-contained: it
      never changes the game itself — see leaderboard/monster-hook.js. If these
      fail to load, the game plays exactly as before. -->
-<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link data-preview-href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="leaderboard/lb-kit.css?v=20260928-pickerfix">
-<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script defer src="leaderboard/lb-kit.js?v=20260928-pickerfix"></script>
-<script defer src="leaderboard/monster-hook.js?v=20260928-pickerfix"></script>
+<!-- Preview-only: defer the remote leaderboard boot until the game has painted.
+     The original, deployment-ready script block remains in CauldronCrush Chat. -->
+<script type="text/plain" data-leaderboard-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script type="text/plain" data-leaderboard-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script type="text/plain" data-leaderboard-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script type="text/plain" data-leaderboard-src="leaderboard/lb-kit.js?v=20260928-pickerfix"></script>
+<script type="text/plain" data-leaderboard-src="leaderboard/monster-hook.js?v=20260928-pickerfix"></script>
+<!-- Preview-only: keep all leaderboard source references visible above, but do
+     not connect to external services during the fast local game-layout test. -->
 </body>
 </html>
